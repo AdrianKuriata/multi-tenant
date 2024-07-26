@@ -117,7 +117,7 @@ class Directory implements Filesystem
      */
     public function putFileAs($path, $file, $name = null, $options = [])
     {
-        return $this->filesystem->putFileAs($this->path($path), $file, $name, $options)
+        return $this->filesystem->putFileAs($this->path($path), $file, $name, $options);
     }
 
     /**
