@@ -75,10 +75,9 @@ class Directory implements Filesystem
 
     /**
      * @param string $path
-     * @param bool $local
      * @return string
      */
-    public function path(string $path = null, $local = false): string
+    public function path($path): string
     {
         $prefix = "{$this->getWebsite()->uuid}/";
 
@@ -90,7 +89,7 @@ class Directory implements Filesystem
             $path = "$prefix$path";
         }
 
-        if ($local && $this->isLocal()) {
+        if ($this->isLocal()) {
             $config = $this->filesystem->getConfig();
             $path = sprintf(
                 "%s/%s",
