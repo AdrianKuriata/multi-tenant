@@ -40,6 +40,19 @@ trait AddWebsiteFilterOnCommand
         });
     }
 
+    /**
+     * Laravel 13 buduje opcje komend z $signature (getOptions() nie jest wołane przy tworzeniu),
+     * więc domyślną klasę seedera z configu ustawiamy na gotowej definicji komendy.
+     */
+    protected function applyTenantSeedClassDefault(string $option): void
+    {
+        $seedClass = config('tenancy.db.tenant-seed-class');
+
+        if ($seedClass && $this->getDefinition()->hasOption($option)) {
+            $this->getDefinition()->getOption($option)->setDefault($seedClass);
+        }
+    }
+
     protected function addWebsiteOption()
     {
         return ['website_id', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'The tenancy website_ids (not uuid) to migrate specifically.', null];
