@@ -38,9 +38,17 @@ trait MutatesMigrationCommands
 
         $this->setName('tenancy:' . $this->getName());
         $this->specifyParameters();
+        $this->afterSpecifyingParameters();
 
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
+    }
+
+    /**
+     * Haczyk dla komend korygujących domyślne wartości opcji po zbudowaniu definicji.
+     */
+    protected function afterSpecifyingParameters(): void
+    {
     }
 
     public function handle()
