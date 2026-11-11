@@ -75,10 +75,9 @@ class Directory implements Filesystem
 
     /**
      * @param string $path
-     * @param bool $local
      * @return string
      */
-    public function path(string $path = null, $local = false): string
+    public function path($path): string
     {
         $prefix = "{$this->getWebsite()->uuid}/";
 
@@ -90,7 +89,7 @@ class Directory implements Filesystem
             $path = "$prefix$path";
         }
 
-        if ($local && $this->isLocal()) {
+        if ($this->isLocal()) {
             $config = $this->filesystem->getConfig();
             $path = sprintf(
                 "%s/%s",
@@ -100,6 +99,25 @@ class Directory implements Filesystem
         }
 
         return $path;
+    }
+
+    public function putFile($path, $file = null, $options = [])
+    {
+        return $this->filesystem->putFile($this->path($path), $file, $name);
+    }
+
+    /**
+     * Store the uploaded file on the disk with a given name.
+     *
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $path
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null  $file
+     * @param  string|array|null  $name
+     * @param  mixed  $options
+     * @return string|false
+     */
+    public function putFileAs($path, $file, $name = null, $options = [])
+    {
+        return $this->filesystem->putFileAs($this->path($path), $file, $name, $options);
     }
 
     /**

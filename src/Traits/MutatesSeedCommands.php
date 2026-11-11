@@ -35,6 +35,11 @@ trait MutatesSeedCommands
         parent::__construct($resolver);
 
         $this->setName('tenancy:' . $this->getName());
+        // Laravel 13: SeedCommand nie woła specifyParameters() (opcje z $signature) -> bez tego brak --website_id.
+        if (! $this->getDefinition()->hasOption('website_id')) {
+            $this->specifyParameters();
+        }
+        $this->applyTenantSeedClassDefault('class');
 
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);

@@ -22,6 +22,11 @@ class FreshCommand extends BaseCommand
 {
     use MutatesMigrationCommands;
 
+    protected function afterSpecifyingParameters(): void
+    {
+        $this->applyTenantSeedClassDefault('seeder');
+    }
+
     /**
      * Execute the console command
      */
